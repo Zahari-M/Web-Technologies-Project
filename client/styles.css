@@ -1,0 +1,20 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: chocolate;
+    padding: 10px;
+}
+
+body {
+    background-color:aliceblue;
+    margin: 0;
+    min-height: 100vh;
+}
+
+main {
+    margin: 30px;
+    padding: 50px;
+    border: 2px solid brown;
+    min-height: 50vh;
+    background-color: cornsilk;
+}
