@@ -29,10 +29,23 @@
 
 .chordNumbers {
     position: absolute;
+    bottom: 0;
+}
+
+.chordNumber {
+    transform: translateX(-50%);
+    position: absolute;
+    text-shadow:
+    1px 1px 0 var(--background-color),
+    -1px 1px 0 var(--background-color),
+    -1px -1px 0 var(--background-color),
+    1px -1px 0 var(--background-color);
+    z-index: 1;
 }
 
 .row {
     position: relative;
+    margin-bottom: 30px;
 }
 
 .selector {

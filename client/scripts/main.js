@@ -3,9 +3,9 @@ const playButton = document.getElementById('play')
 const loadButton = document.getElementById('load')
 const exportButton = document.getElementById('export')
 const importButton = document.getElementById('import')
-//                     0    1     2    3     4    5     6    7     8    9
-const chordLetters = ["A", "A#", "B", "B#", "C", "C#", "D", "D#", "E", "E#",
-//   10   11    12    13
+//                     0    1     2    3     4    5     6    7    
+const chordLetters = ["A", "A#", "B", "C", "C#", "D", "D#", "E",
+//   8    9     10   11
     "F", "F#", "G", "G#"];
 //                    0     1
 const chordTypes = ['maj', 'min']
@@ -17,14 +17,14 @@ const tabPresets = {
         '0': [0, 2, 2, 2, 0, null],
         '1': [0, 1, 2, 2, 0, null]
     },
-    '6': {
+    '5': {
         '0': [2, 3, 2, 0, null, null],
         '1': [1, 3, 2, 0, null, null],
     },
-    '4': {
+    '3': {
         '0': [0, 1, 0, 2, 3, null]
     },
-    '12': {
+    '10': {
         '0': [3, 0, 0, 0, 2, 3]
     }
 }
@@ -34,42 +34,69 @@ const tabTemplates = {
     '1': [0, 0, 0, 2, 2, 0]  // E minor
 }
 
-const newChord = {
-    chord: null,
-    type: 0,
-    duration: 1
+class Chord {
+    chord = null;
+    type = 0;
+    duration = 1;
 }
 
-let chords = [];
+let chords = [new Chord()];
 
 const divisionWidth = 230;
 const rowHeight = 160;
 const editorWidth = editor.clientWidth;
 const selectorOffset = -15;
 const linesHeight = 80;
-const labelOffset = 24  ;
+const labelOffset = 24;
+const numberOffset = (linesHeight / 5) / 2;
+const numberFontSize = 16;
 
 const divisionsPerRow = Math.floor(editorWidth / divisionWidth)
 
-function chordOffsetPx(offset) {
-    return Math.floor(divisionWidth / 5) * (1 + offset + Math.floor(offset / 4))
+function chordPositionPx(position) {
+    return Math.floor(divisionWidth / 5) * (1 + position + Math.floor(position / 4))
 }
 
 function getTabNumbers(chordNumber, typeNumber) {
+    if (tabPresets[chordNumber] && tabPresets[chordNumber][typeNumber]) {
+        return tabPresets[chordNumber][typeNumber]
+    }
 
+    return tabTemplates[typeNumber].map(number => 
+        (number + chordNumber - 7 + chordLetters.length) % chordLetters.length)
 }
 
-function chordNumbers(offset, index) {
+function chordNumbers(position, index) {
     const root = document.createElement('div')
     root.className = 'chordNumbers'
-    
+    root.style.height = `${linesHeight}px`
+    root.style.left = `${chordPositionPx(position)}px`
+    const numbers = getTabNumbers(chords[index].chord, chords[index].type)
+    for (let i = 0; i < 6; i++) {
+        if (numbers[i] === null) {
+            continue;
+        }
+        const chordNumber = document.createElement('div')
+        chordNumber.className = 'chordNumber'
+        chordNumber.style.top = `${(i * linesHeight / 5) - numberOffset}px`
+        chordNumber.innerText = numbers[i]
+        root.appendChild(chordNumber);
+    }
+    return root
 }
 
-function chordEditor(offset, index) { // offset - missing notes
+function getHandler(property, index) {
+    return (e) => {
+        chords[index][property] = Number(e.target.value);
+        displayEditor()
+    } 
+}
+
+function chordEditor(position, index) { // position - missing notes
     const root = document.createElement('div')
     root.className = 'chordEditor'
     root.style.top = '0'
-    root.style.left = `${chordOffsetPx(offset) + selectorOffset}px`
+    root.style.left = `${chordPositionPx(position) + selectorOffset}px`
 
     const letterSelector = document.createElement('select')
     letterSelector.className = 'selector'
@@ -82,16 +109,20 @@ function chordEditor(offset, index) { // offset - missing notes
     })
 
     letterSelector.value = chords[index].chord === null ? '' : chords[index].chord
+    letterSelector.onchange = getHandler('chord', index)
 
     const typeSelector = document.createElement('select')
     typeSelector.className = 'selector'
 
     chordTypes.forEach((type, index) => {
-        const option = document.createElement('option')
+        const option = document.createElement('option', index)
         option.value = index
         option.innerText = type
         typeSelector.appendChild(option)
     })    
+
+    typeSelector.value = chords[index].type
+    typeSelector.onchange = getHandler('type', index)
 
     const durationSelector = document.createElement('select')
     durationSelector.className = 'selector'
@@ -103,14 +134,15 @@ function chordEditor(offset, index) { // offset - missing notes
         durationSelector.appendChild(option)
     })
 
+    durationSelector.value = chords[index].duration
+    durationSelector.onchange = getHandler('duration', index)
+
     root.appendChild(letterSelector)
     root.appendChild(typeSelector)
     root.appendChild(durationSelector)
     
     return root
 }
-
-
 
 function RowLines() {
     const root = document.createElement('div')
@@ -136,11 +168,6 @@ function Row(offset, startIndex, endIndex) {
     const root = document.createElement('div')
     root.className = 'row'
     root.style.height = `${rowHeight}px`
-    root.appendChild(chordEditor(0, 1))
-    root.appendChild(chordEditor(1, 1))
-    root.appendChild(chordEditor(2, 1))
-    root.appendChild(chordEditor(3, 1))
-    root.appendChild(chordEditor(4, 1))
 
     labels.forEach((label, index) => {
         const labelElem = document.createElement('div')
@@ -152,11 +179,38 @@ function Row(offset, startIndex, endIndex) {
 
     const rowLines = RowLines()
     root.appendChild(rowLines)
+    
+    for (let i = startIndex; i <= endIndex; i++) {
+        root.appendChild(chordEditor(offset, i))
+        if (chords[i].chord !== null) {
+            root.appendChild(chordNumbers(offset, i))    
+        }
+        offset += chords[i].duration
+    }
+
     return root
 }
 
 function displayEditor() {
-    editor.appendChild(Row(0, 1, 2))
+    editor.innerHTML = ''
+    if (chords[chords.length - 1].chord !== null) {
+        chords[chords.length] = new Chord()
+    }
+
+    let offset = 0, startIndex = 0, startOffset = 0;
+    const totalPositions = divisionsPerRow * 4
+    for (let i = 0; i < chords.length; i++) {
+        offset += chords[i].duration
+        if (offset >= totalPositions) {
+            editor.appendChild(Row(startOffset, startIndex, i))
+            offset -= totalPositions;
+            startOffset = offset;
+            startIndex = i + 1;
+        }
+    }
+    if (startIndex < chords.length) {
+        editor.appendChild(Row(startOffset, startIndex, chords.length - 1))
+    }
 }
 
 displayEditor()
