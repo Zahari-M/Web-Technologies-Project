@@ -1,0 +1,48 @@
+.line {
+    background-color: black;
+    height: 1px;
+    left: 0px;
+    position: absolute;
+}
+
+.divisionSeparator {
+    background-color: black;
+    width: 2px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.lines {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.chordEditor {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chordNumbers {
+    position: absolute;
+}
+
+.row {
+    position: relative;
+}
+
+.selector {
+    appearance: none;
+    border: 1px solid black;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.label {
+    position: absolute;
+    left: -30px;
+}
