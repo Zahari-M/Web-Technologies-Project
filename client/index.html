@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./styles.css">
-    <title>Chrod Progression Editor</title>
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/editor.css" >
+    <title>Chord Progression Editor</title>
+    <script defer src="scripts/main.js" type="module"></script>
 </head>
 <body>
     <header>
@@ -12,13 +14,40 @@
 
         </div>
         <h1>
-            Chrod Progression Editor
+            Chord Progression Editor
         </h1>
         <button>
             Log In
         </button>
     </header>
     <main>
+        <div id="controls">
+            <button id="play">Play</button>
+            <button id="save">Save</button>
+            <button id="load">Load</button>
+            <button id="export">Export</button>
+            <button id="import">Import</button>
+        </div>
+        <div id="editor">
+            <div id="title">
+                <input id="titleInput" value="Title"/>
+            </div>
+            <div id="tabEditor">
 
+            </div>
+        </div>
     </main>
+    <div id="overlay" class="hidden">
+        <div id="popup">
+            <div id="popupTitle">
+            </div>
+            <div id="popupContent">
+            </div>
+            <div id="popupButtons">
+                <button id="confirmPopup">OK</button>
+                <button id="closePopup">Close</button>
+            </div>
+        </div>
+    </div>
+    <a id="download"></a>
 </body>

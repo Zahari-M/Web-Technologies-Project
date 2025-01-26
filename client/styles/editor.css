@@ -1,0 +1,66 @@
+.line {
+    background-color: black;
+    height: 1px;
+    left: 0px;
+    position: absolute;
+}
+
+.divisionSeparator {
+    background-color: black;
+    width: 2px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.lines {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.chordEditor {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chordNumbers {
+    position: absolute;
+    bottom: 0;
+}
+
+.chordNumber {
+    transform: translateX(-50%);
+    position: absolute;
+    text-shadow:
+    1px 1px 0 var(--background-color),
+    -1px 1px 0 var(--background-color),
+    -1px -1px 0 var(--background-color),
+    1px -1px 0 var(--background-color);
+    z-index: 1;
+}
+
+.row {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.selector {
+    appearance: none;
+    border: 1px solid black;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.label {
+    position: absolute;
+    left: -30px;
+}
+
+.stringLetter {
+    position: absolute;
+    left: -20px;
+}
