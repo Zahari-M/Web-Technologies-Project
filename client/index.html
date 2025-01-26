@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="styles/editor.css">
+    <link rel="stylesheet" type="text/css" href="styles/editor.css" >
     <title>Chord Progression Editor</title>
-    <script defer src="scripts/main.js"></script>
+    <script defer src="scripts/main.js" type="module"></script>
 </head>
 <body>
     <header>
@@ -29,7 +29,25 @@
             <button id="import">Import</button>
         </div>
         <div id="editor">
+            <div id="title">
+                <input id="titleInput" value="Title"/>
+            </div>
+            <div id="tabEditor">
 
+            </div>
         </div>
     </main>
+    <div id="overlay" class="hidden">
+        <div id="popup">
+            <div id="popupTitle">
+            </div>
+            <div id="popupContent">
+            </div>
+            <div id="popupButtons">
+                <button id="confirmPopup">OK</button>
+                <button id="closePopup">Close</button>
+            </div>
+        </div>
+    </div>
+    <a id="download"></a>
 </body>
