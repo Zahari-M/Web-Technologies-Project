@@ -33,6 +33,7 @@ if ($method === 'POST') {
 
             try {
                 $userId = registerUser($username, $password);
+                setcookie("user_id", $userId, time() + (86400 * 30), "/");
                 sendResponse(201, ['user_id' => $userId], 'User registered successfully.');
             } catch (Exception $e) {
                 sendResponse(500, null, 'Failed to register user: ' . $e->getMessage());
@@ -49,18 +50,30 @@ if ($method === 'POST') {
 
             $user = loginUser($username, $password);
             if ($user) {
+                setcookie("user_id", $user['id'], time() + (86400 * 30), "/");
                 sendResponse(200, ['user_id' => $user['id'], 'username' => $user['username']], 'Login successful.');
             } else {
                 sendResponse(401, null, 'Invalid username or password.');
             }
             break;
 
+
+        case 'logout':
+            setcookie("user_id", "", time() - 3600, "/");
+            sendResponse(200, null, 'Logged out successfully.');
+            break;
+
         case 'save_melody':
-            $userId = isset($input['user_id']) ? $input['user_id'] : 0;
+            $userId = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null;
+
+            if (!$userId) {
+                sendResponse(401, null, 'User not authenticated. Please log in.');
+            }
+
             $title = isset($input['title']) ? $input['title'] : '';
             $chords = isset($input['chords']) ? $input['chords'] : [];
 
-            if (empty($userId) || empty($title) || empty($chords)) {
+            if (empty($title) || empty($chords)) {
                 sendResponse(400, null, 'User ID, title, and chords are required.');
             }
 
@@ -93,10 +106,10 @@ if ($method === 'POST') {
             break;
 
         case 'get_melodies':
-            $userId = isset($_GET['user_id']) ? $_GET['user_id'] : 0;
+            $userId = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null;
 
-            if (empty($userId)) {
-                sendResponse(400, null, 'User ID is required.');
+            if (!$userId) {
+                sendResponse(401, null, 'User not authenticated. Please log in.');
             }
 
             $melodies = getUserMelodies($userId);
