@@ -1,84 +1,84 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
+import { getEndpointsURL } from "./utils.js";
 
-    const API_URL = 'http://localhost/Web-Technologies-Project/server/endpoints.php';
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
 
-    if (loginForm) {
-        loginForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+const API_URL = getEndpointsURL()
 
-            const requestData = {
-                username: email,
-                password: password
-            };
+if (loginForm) {
+    loginForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
 
-            try {
-                const response = await fetch(`${API_URL}?action=login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestData),
-                    credentials: 'include'
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert('Login successful!');
-                    window.location.href = "index.html";
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Login request failed:', error);
-                alert('Failed to connect to the server.');
-            }
+        const requestData = {
+            username: email,
+            password: password
         };
-    }
 
-    if (registerForm) {
-        registerForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+        try {
+            const response = await fetch(`${API_URL}?action=login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData),
+            });
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Login successful!');
+                localStorage.setItem("username", email)
+                window.location.href = "index.html";
+            } else {
+                alert(`Error: ${data.message}`);
             }
+        } catch (error) {
+            console.error('Login request failed:', error);
+            alert('Failed to connect to the server.');
+        }
+    };
+}
 
-            const requestData = {
-                username: email,
-                password: password
-            };
+if (registerForm) {
+    registerForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
 
-            try {
-                const response = await fetch(`${API_URL}?action=register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestData),
-                    credentials: 'include'
-                });
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert('Registration successful!');
-                    window.location.href = "login.html";
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Registration request failed:', error);
-                alert('Failed to connect to the server.');
-            }
+        const requestData = {
+            username: email,
+            password: password
         };
-    }
-});
+
+        try {
+            const response = await fetch(`${API_URL}?action=register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Registration successful!');
+                localStorage.setItem("username", email)
+                window.location.href = "index.html";
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Registration request failed:', error);
+            alert('Failed to connect to the server.');
+        }
+    };
+}

@@ -50,8 +50,11 @@ class Data {
         return copy
     }
 
-    setData() {
-
+    setData(song) {
+        this.title = song.title
+        titleInput.innerText = song.title
+        this.chords = song.chords
+        displayEditor()
     }
 }
 
@@ -137,7 +140,7 @@ function chordEditor(position, index) { // position - missing notes
     typeSelector.className = 'selector'
 
     chordTypes.forEach((type, index) => {
-        const option = document.createElement('option', index)
+        const option = document.createElement('option')
         option.value = index
         option.innerText = type
         typeSelector.appendChild(option)

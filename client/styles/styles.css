@@ -15,10 +15,15 @@ header button {
     border: 3px solid #5c3b20;
     border-radius: 5px;
     padding: 5px 10px;
+    margin-left: 150px;
     color: #fff8f0;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#userMessage {
+    width: 200px;
 }
 
 header button:hover {
@@ -189,4 +194,11 @@ main {
 
 #download {
     display: none;
+}
+
+.songSelector {
+    margin: auto;
+    width: 200px;
+    margin-top: 10px;
+    display: block;
 }

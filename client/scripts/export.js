@@ -61,14 +61,12 @@ function writeLine(startPosition, chords, lineNumber) {
 
 const popupContent = document.getElementById('popupContent')
 const popupTitle = document.getElementById('popupTitle')
-const confirmPopup = document.getElementById('confirmPopup')
 
-export function exportPopupContent() {
+export function exportPopupDisplay() {
     popupTitle.innerText = "Export"
-    confirmPopup.addEventListener('click', onConfirm)
 }
 
-function onConfirm() {
+export function exportConfirm() {
     const currentData = data.getData()
     toACIIChords(currentData)
     const blob = new Blob([file], {type: 'text/plain'});
@@ -76,5 +74,4 @@ function onConfirm() {
     a.href = URL.createObjectURL(blob);
     a.download = currentData.title + '.txt';
     a.click()
-    confirmPopup.removeEventListener('click', onConfirm)
 }
