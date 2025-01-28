@@ -78,7 +78,7 @@
 
 .stringLetter {
     position: absolute;
-    left: -20px;
+    left: 10px;
     color: #5c3b20;
     font-weight: bold;
 }

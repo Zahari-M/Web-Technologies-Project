@@ -62,7 +62,7 @@ const rowHeight = 160;
 const editorWidth = editor.clientWidth;
 const selectorOffset = -15;
 const linesHeight = 80;
-const labelOffset = 24;
+const labelOffset = 30;
 const numberOffset = (linesHeight / 5) / 2;
 const numberFontSize = 16;
 
@@ -194,7 +194,7 @@ function Row(offset, startIndex, endIndex) {
     labels.forEach((label, index) => {
         const labelElem = document.createElement('div')
         labelElem.className = 'label'
-        labelElem.style.top = `${index * labelOffset}px`
+        labelElem.style.top = `${index * labelOffset + 5}px`
         labelElem.innerText = label
         root.appendChild(labelElem)
     })
