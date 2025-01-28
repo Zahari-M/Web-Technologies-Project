@@ -64,3 +64,13 @@
     position: absolute;
     left: -20px;
 }
+
+.verticalLine {
+    position: absolute;
+    width: 2px;
+    background-color: red;
+    z-index: 1000; /* Ensure it's on top */
+    display: block; /* Initially hidden, shown when playback starts */
+    height: 60%; /* Or set to a specific value */
+    transition: left 0.2s ease-in-out, top 0.2s ease-in-out;
+}
