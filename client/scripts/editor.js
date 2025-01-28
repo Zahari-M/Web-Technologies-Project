@@ -230,6 +230,8 @@ export function displayEditor() {
     }
     data.chords.push(new Chord())
 
+    resetLine();
+
     let offset = 0, startIndex = 0, startOffset = 0;
     const totalPositions = divisionsPerRow * 4
     for (let i = 0; i < data.chords.length; i++) {
@@ -259,24 +261,23 @@ function playChord(chord) {
     if (chord.chord !== -1) {
         console.log(`Playing chord: ${chordLetters[chord.chord]} ${chordTypes[chord.type]}`);
     if(chord.type==1){
-        playNote(chordLetters[chord.chord]);
-        setTimeout(10);
-        playNote(chordLetters[(chord.chord+3)%12]);
-        setTimeout(10);
-        playNote(chordLetters[(chord.chord+7)%12]);
+        setTimeout(() => playNote(chordLetters[chord.chord]), 0); // Root
+            setTimeout(() => playNote(chordLetters[(chord.chord + 3) % 12]), 50); // Minor third
+            setTimeout(() => playNote(chordLetters[(chord.chord + 7) % 12]), 100); // Fifth
+            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 150);
     }
     if(chord.type==0){
-        playNote(chordLetters[chord.chord]);
-        setTimeout(10);
-        playNote(chordLetters[(chord.chord+4)%12]);
-        setTimeout(10);
-        playNote(chordLetters[(chord.chord+7)%12]);
+        setTimeout(() => playNote(chordLetters[chord.chord]), 0); // Root
+            setTimeout(() => playNote(chordLetters[(chord.chord + 3) % 12]), 50); // Minor third
+            setTimeout(() => playNote(chordLetters[(chord.chord + 7) % 12]), 100); // Fifth
+            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 150);
     }
     }
 }
 
 function playNote(note) {
       const audioElement = document.getElementById(`${note}`);
+      audioElement.loop=false;
       var myClonedAudio = audioElement.cloneNode();
 
       myClonedAudio.play();
@@ -301,9 +302,9 @@ function resetLine() {
 function stopPlayback() {
     if (!isPlaying) return;
     isPlaying = false;
-    setSelectorsDisabled(false);
     clearInterval(playerId);
     playerId=null;
+    setSelectorsDisabled(false);
 }
 
 
@@ -316,7 +317,6 @@ let totalChordsIndex=0;
 
 function moveLine(){
     if (totalChordsIndex===data.chords.length) {
-        console.log(editor.children.length);
         stopPlayback();
         resetLine();
         return;
@@ -325,7 +325,6 @@ function moveLine(){
     if(currentRowIndex===-1||currentTickIndex>=divisionsPerRow*4){
         currentRowIndex++;
         currentRow = editor.children[currentRowIndex];
-        console.log(currentRow);
         currentRow.appendChild(verticalLine);
         currentTickIndex=0;
     }
@@ -351,8 +350,6 @@ function setSelectorsDisabled(disabled) {
         selector.disabled = disabled;
     });
 }
-
-
 
 
 playButton.onclick = startPlayback;
