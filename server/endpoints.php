@@ -116,6 +116,31 @@ if ($method === 'POST') {
             sendResponse(200, $melodies, 'Melodies retrieved successfully.');
             break;
 
+        case 'get_melody':
+            $melodyId = isset($_GET['melody_id']) ? $_GET['melody_id'] : null;
+
+            if (empty($melodyId)) {
+                sendResponse(400, null, 'Melody ID is required.');
+            }
+
+            $userId = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null;
+
+            if (!$userId) {
+                sendResponse(401, null, 'User not authenticated. Please log in.');
+            }
+
+            try {
+                $melody = getMelodyById($userId, $melodyId);
+                if ($melody) {
+                    sendResponse(200, $melody, 'Melody retrieved successfully.');
+                } else {
+                    sendResponse(404, null, 'Melody not found or does not belong to the user.');
+                }
+            } catch (Exception $e) {
+                sendResponse(500, null, 'Failed to retrieve melody: ' . $e->getMessage());
+            }
+            break;
+
         default:
             sendResponse(404, null, 'Invalid action.');
     }

@@ -43,3 +43,19 @@ function getUserById($userId)
     $stmt->execute(['id' => $userId]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function getMelodyById($userId, $melodyId) {
+    global $pdo;
+
+    $sql = "SELECT id, title FROM melodies WHERE id = :melody_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['melody_id' => $melodyId, 'user_id' => $userId]);
+    $melody = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($melody) {
+        $melody['chords'] = getMelodyChords($melody['id']);
+        return $melody;
+    }
+
+    return null;
+}
