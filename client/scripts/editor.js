@@ -287,12 +287,13 @@ function playNote(note) {
 function startPlayback(){
     if (isPlaying) return;
     isPlaying=true;
+    setSelectorsDisabled(true);
     playerId=setInterval(moveLine, 1000);
 }
 
 function resetLine() {
     currentTickIndex = 0;
-    currentRowIndex = 0;
+    currentRowIndex = -1;
     verticalLine.style.display='none';
     tick = 0;
     totalChordsIndex=0;
@@ -300,6 +301,7 @@ function resetLine() {
 function stopPlayback() {
     if (!isPlaying) return;
     isPlaying = false;
+    setSelectorsDisabled(false);
     clearInterval(playerId);
     playerId=null;
 }
@@ -320,7 +322,7 @@ function moveLine(){
         return;
     }
 
-    if(currentRowIndex===-1||currentTickIndex>=20){
+    if(currentRowIndex===-1||currentTickIndex>=divisionsPerRow*4){
         currentRowIndex++;
         currentRow = editor.children[currentRowIndex];
         console.log(currentRow);
@@ -341,6 +343,17 @@ function moveLine(){
     tick--;
     currentTickIndex++;
 }
+
+
+function setSelectorsDisabled(disabled) {
+    const selectors = document.querySelectorAll('.selector');
+    selectors.forEach(selector => {
+        selector.disabled = disabled;
+    });
+}
+
+
+
 
 playButton.onclick = startPlayback;
 stopButton.onclick = stopPlayback;
