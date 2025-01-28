@@ -245,3 +245,102 @@ export function displayEditor() {
         editor.appendChild(Row(startOffset, startIndex, data.chords.length - 1))
     }
 }
+
+let playButton = document.getElementById('play');
+let stopButton = document.getElementById('stop');
+let verticalLine = document.createElement('div');
+let isPlaying = false;
+
+verticalLine.className = 'verticalLine';
+
+
+
+function playChord(chord) {
+    if (chord.chord !== -1) {
+        console.log(`Playing chord: ${chordLetters[chord.chord]} ${chordTypes[chord.type]}`);
+    if(chord.type==1){
+        playNote(chordLetters[chord.chord]);
+        setTimeout(10);
+        playNote(chordLetters[(chord.chord+3)%12]);
+        setTimeout(10);
+        playNote(chordLetters[(chord.chord+7)%12]);
+    }
+    if(chord.type==0){
+        playNote(chordLetters[chord.chord]);
+        setTimeout(10);
+        playNote(chordLetters[(chord.chord+4)%12]);
+        setTimeout(10);
+        playNote(chordLetters[(chord.chord+7)%12]);
+    }
+    }
+}
+
+function playNote(note) {
+      const audioElement = document.getElementById(`${note}`);
+      var myClonedAudio = audioElement.cloneNode();
+
+      myClonedAudio.play();
+  }
+
+
+
+function startPlayback(){
+    if (isPlaying) return;
+    isPlaying=true;
+    playerId=setInterval(moveLine, 1000);
+}
+
+function resetLine() {
+    currentTickIndex = 0;
+    currentRowIndex = 0;
+    verticalLine.style.display='none';
+    tick = 0;
+    totalChordsIndex=0;
+}
+function stopPlayback() {
+    if (!isPlaying) return;
+    isPlaying = false;
+    clearInterval(playerId);
+    playerId=null;
+}
+
+
+let currentTickIndex=0;
+let currentRowIndex=-1;
+let tick=0;
+let currentRow;
+let playerId = null;
+let totalChordsIndex=0;
+
+function moveLine(){
+    if (totalChordsIndex===data.chords.length) {
+        console.log(editor.children.length);
+        stopPlayback();
+        resetLine();
+        return;
+    }
+
+    if(currentRowIndex===-1||currentTickIndex>=20){
+        currentRowIndex++;
+        currentRow = editor.children[currentRowIndex];
+        console.log(currentRow);
+        currentRow.appendChild(verticalLine);
+        currentTickIndex=0;
+    }
+
+    verticalLine.style.top = `${rowHeight-90}px`;
+    verticalLine.style.left = `${chordPositionPx(currentTickIndex)}px`;
+    verticalLine.style.display='block';
+
+    if(tick==0){
+        const currentChord=data.chords[totalChordsIndex]
+        playChord(currentChord);
+        totalChordsIndex++;
+        tick=currentChord.duration;
+    }
+    tick--;
+    currentTickIndex++;
+}
+
+playButton.onclick = startPlayback;
+stopButton.onclick = stopPlayback;
