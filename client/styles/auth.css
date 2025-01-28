@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2e6d9; /* Light beige, resembling wood grain */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-container {
+    background: #fff4e6; /* Light cream for a warm tone */
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    border: 1px solid #d6a575; /* Subtle border resembling a guitar's finish */
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #a0522d; /* Sienna, a reddish-brown tone */
+    font-family: "Georgia", serif; /* Adds a classic, elegant feel */
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-container input {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid #d6a575; /* Border to match the overall tone */
+    background-color: #fff8f0; /* Soft cream background */
+    color: #5c3b20; /* Dark brown text */
+}
+
+.auth-container input:focus {
+    outline: none;
+    border: 1px solid #a0522d; /* Highlighted border for focus */
+    box-shadow: 0 0 5px rgba(160, 82, 45, 0.5); /* Subtle glow effect */
+}
+
+.auth-container button {
+    background-color: #a0522d; /* Sienna */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.auth-container button:hover {
+    background-color: #8b4513; /* SaddleBrown for a darker hover effect */
+}
+
+.auth-container a {
+    color: #a0522d; /* Matches the button color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+    color: #8b4513; /* Darker brown on hover */
+}

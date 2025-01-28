@@ -8,6 +8,7 @@ const importButton = document.getElementById('import')
 const overlay = document.getElementById('overlay')
 const closePopupButton = document.getElementById('closePopup')
 const confirmPopupButton = document.getElementById('confirmPopup')
+const loginButton = document.getElementById('loginButton')
 
 function displayPopup(displayContent) {
     overlay.className = ''
@@ -21,6 +22,10 @@ confirmPopupButton.addEventListener('click', closePopup)
 function closePopup() {
     overlay.className = 'hidden'
 }
+
+loginButton.addEventListener("click", function() {
+    window.location.href = "login.html";
+});
 
 exportButton.onclick = () => {
     displayPopup(exportPopupContent)
