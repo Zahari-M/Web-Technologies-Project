@@ -1,5 +1,6 @@
 import { displayEditor } from "./editor.js"
 import { exportPopupContent } from "./export.js"
+import { logout } from "./logout.js"
 
 const playButton = document.getElementById('play')
 const loadButton = document.getElementById('load')
@@ -9,6 +10,8 @@ const overlay = document.getElementById('overlay')
 const closePopupButton = document.getElementById('closePopup')
 const confirmPopupButton = document.getElementById('confirmPopup')
 const loginButton = document.getElementById('loginButton')
+const logoutButton = document.getElementById('logoutButton')
+
 
 function displayPopup(displayContent) {
     overlay.className = ''
@@ -26,6 +29,18 @@ function closePopup() {
 loginButton.addEventListener("click", function() {
     window.location.href = "login.html";
 });
+
+logoutButton.onclick=async() =>{
+    await logout();
+    logoutButton.style.display='none';
+    loginButton.style.display='block';
+};
+
+if(localStorage.getItem("username")){
+    logoutButton.style.display='block';
+    loginButton.style.display='none';
+}
+
 
 exportButton.onclick = () => {
     displayPopup(exportPopupContent)

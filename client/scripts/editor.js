@@ -289,7 +289,7 @@ function startPlayback(){
     if (isPlaying) return;
     isPlaying=true;
     setSelectorsDisabled(true);
-    playerId=setInterval(moveLine, 1000);
+    playerId=setInterval(moveLine, 500);
 }
 
 function resetLine() {

@@ -1,8 +1,10 @@
+import { getEndpointsURL } from "./utils.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
 
-    const API_URL = 'http://localhost/Web-Technologies-Project/server/endpoints.php';
+    const API_URL = getEndpointsURL();
 
     if (loginForm) {
         loginForm.onsubmit = async (e) => {
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     alert('Login successful!');
+                    localStorage.setItem("username", email)
                     window.location.href = "index.html";
                 } else {
                     alert(`Error: ${data.message}`);
@@ -71,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     alert('Registration successful!');
+                    localStorage.setItem("username", email)
                     window.location.href = "login.html";
                 } else {
                     alert(`Error: ${data.message}`);
