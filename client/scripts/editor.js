@@ -264,16 +264,18 @@ function playChord(chord) {
     if (chord.chord !== -1) {
         console.log(`Playing chord: ${chordLetters[chord.chord]} ${chordTypes[chord.type]}`);
     if(chord.type==1){
-        setTimeout(() => playNote(chordLetters[chord.chord]), 0); // Root
-            setTimeout(() => playNote(chordLetters[(chord.chord + 3) % 12]), 50); // Minor third
-            setTimeout(() => playNote(chordLetters[(chord.chord + 7) % 12]), 100); // Fifth
-            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 150);
+        const notes=[chord.chord, (chord.chord + 3) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
+        setTimeout(() => playNote(chordLetters[notes[0]]), 0);
+            setTimeout(() => playNote(chordLetters[notes[1]]), 25);
+            setTimeout(() => playNote(chordLetters[notes[2]]), 50);
+            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
     }
     if(chord.type==0){
-        setTimeout(() => playNote(chordLetters[chord.chord]), 0); // Root
-            setTimeout(() => playNote(chordLetters[(chord.chord + 3) % 12]), 50); // Minor third
-            setTimeout(() => playNote(chordLetters[(chord.chord + 7) % 12]), 100); // Fifth
-            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 150);
+        const notes=[chord.chord, (chord.chord + 4) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
+        setTimeout(() => playNote(chordLetters[notes[0]]), 0);
+            setTimeout(() => playNote(chordLetters[notes[1]]), 25);
+            setTimeout(() => playNote(chordLetters[notes[2]]), 50);
+            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
     }
     }
 }
