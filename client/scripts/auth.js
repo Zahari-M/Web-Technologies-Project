@@ -3,7 +3,7 @@ import { getEndpointsURL } from "./utils.js";
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 
-const API_URL = getEndpointsURL()
+    const API_URL = getEndpointsURL();
 
 if (loginForm) {
     loginForm.onsubmit = async (e) => {
@@ -38,7 +38,7 @@ if (loginForm) {
             console.error('Login request failed:', error);
             alert('Failed to connect to the server.');
         }
-    };
+    }
 }
 
 if (registerForm) {

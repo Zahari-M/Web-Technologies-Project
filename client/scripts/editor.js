@@ -52,7 +52,7 @@ class Data {
 
     setData(song) {
         this.title = song.title
-        titleInput.innerText = song.title
+        titleInput.value = song.title
         this.chords = song.chords
         displayEditor()
     }
@@ -292,7 +292,7 @@ function startPlayback(){
     if (isPlaying) return;
     isPlaying=true;
     setSelectorsDisabled(true);
-    playerId=setInterval(moveLine, 1000);
+    playerId=setInterval(moveLine, 500);
 }
 
 function resetLine() {

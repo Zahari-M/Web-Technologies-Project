@@ -1,9 +1,9 @@
 import { displayEditor } from "./editor.js"
+import { logout } from "./logout.js"
 import { exportConfirm, exportPopupDisplay } from "./export.js"
 import { confirmLoad, loadData, loadPopup } from "./load.js"
 import { saveData, savePopup } from "./save.js"
 
-const playButton = document.getElementById('play')
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const exportButton = document.getElementById('export')
@@ -12,6 +12,8 @@ const overlay = document.getElementById('overlay')
 const closePopupButton = document.getElementById('closePopup')
 const confirmPopupButton = document.getElementById('confirmPopup')
 const loginButton = document.getElementById('loginButton')
+const logoutButton = document.getElementById('logoutButton')
+
 const userMessage = document.getElementById('userMessage')
 
 
@@ -44,6 +46,19 @@ function closePopup() {
 loginButton.addEventListener("click", function() {
     window.location.href = "login.html";
 });
+
+logoutButton.onclick=async() =>{
+    await logout();
+    logoutButton.style.display='none';
+    loginButton.style.display='block';
+    userMessage.innerText = "";
+};
+
+if(localStorage.getItem("username")){
+    logoutButton.style.display='block';
+    loginButton.style.display='none';
+}
+
 
 exportButton.onclick = () => {
     displayPopup(exportPopupDisplay, exportConfirm)
