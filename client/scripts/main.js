@@ -1,8 +1,10 @@
 import { displayEditor } from "./editor.js"
-import { exportPopupContent } from "./export.js"
 import { logout } from "./logout.js"
+import { exportConfirm, exportPopupDisplay } from "./export.js"
+import { confirmLoad, loadData, loadPopup } from "./load.js"
+import { saveData, savePopup } from "./save.js"
 
-const playButton = document.getElementById('play')
+const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const exportButton = document.getElementById('export')
 const importButton = document.getElementById('import')
@@ -12,10 +14,23 @@ const confirmPopupButton = document.getElementById('confirmPopup')
 const loginButton = document.getElementById('loginButton')
 const logoutButton = document.getElementById('logoutButton')
 
+const userMessage = document.getElementById('userMessage')
 
-function displayPopup(displayContent) {
+
+const username = localStorage.getItem("username")
+if (username) {
+    userMessage.innerText = `Hello, ${username}`
+}
+
+function displayPopup(displayContent, confirmHandler) {
     overlay.className = ''
     displayContent()
+    function removeHandler() {
+        confirmPopupButton.removeEventListener('click', confirmHandler)
+        confirmPopupButton.removeEventListener('click', removeHandler)
+    }
+    confirmPopupButton.addEventListener('click', confirmHandler)
+    confirmPopupButton.addEventListener('click', removeHandler)
 }
 
 closePopupButton.onclick = () => closePopup()
@@ -23,6 +38,8 @@ closePopupButton.onclick = () => closePopup()
 confirmPopupButton.addEventListener('click', closePopup)
 
 function closePopup() {
+    const popupContent = document.getElementById('popupContent')
+    popupContent.innerHTML = ""
     overlay.className = 'hidden'
 }
 
@@ -34,6 +51,7 @@ logoutButton.onclick=async() =>{
     await logout();
     logoutButton.style.display='none';
     loginButton.style.display='block';
+    userMessage.innerText = "";
 };
 
 if(localStorage.getItem("username")){
@@ -43,7 +61,17 @@ if(localStorage.getItem("username")){
 
 
 exportButton.onclick = () => {
-    displayPopup(exportPopupContent)
+    displayPopup(exportPopupDisplay, exportConfirm)
+}
+
+saveButton.onclick = async () => {
+    await saveData()
+    displayPopup(savePopup, () => {})
+}
+
+loadButton.onclick = async () => {
+    await loadData()
+    displayPopup(loadPopup, confirmLoad)
 }
 
 displayEditor()

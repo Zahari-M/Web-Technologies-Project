@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- Database: `ASCII`
 --
 
+CREATE DATABASE IF NOT EXISTS ASCII;
+USE ASCII;
+
 -- --------------------------------------------------------
 
 --
@@ -41,9 +44,9 @@ CREATE TABLE `chords` (
 --
 
 INSERT INTO `chords` (`id`, `melody_id`, `chord`, `type`, `duration`, `order_index`) VALUES
-(1, 1, 1, 0, 1.5, 0),
+(1, 1, 1, 0, 1, 0),
 (2, 1, 2, 1, 2, 1),
-(3, 1, 3, 0, 1.2, 2);
+(3, 1, 3, 0, 1, 2);
 
 -- --------------------------------------------------------
 
