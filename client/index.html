@@ -47,11 +47,15 @@
     </header>
     <main>
         <section id="controls">
-            <button id="play">Play</button>
-	        <button id="stop">Stop</button>
-            <button id="save">Save</button>
-            <button id="load">Load</button>
-            <button id="export">Export</button>
+            <button class="controlButton" id="play">Play</button>
+	        <button class="controlButton" id="stop">Stop</button>
+            <button class="controlButton" id="save">Save</button>
+            <button class="controlButton" id="load">Load</button>
+            <button class="controlButton" id="export">Export</button>
+            <label class="controlButton" style="display: block;">
+                Import
+                <input id="import" type="file" style="display: none;">
+            </label>
         </section>
         <section id="editor">
             <section id="title">

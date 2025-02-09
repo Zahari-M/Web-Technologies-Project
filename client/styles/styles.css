@@ -60,9 +60,10 @@ main {
     flex-direction: column;
     gap: 10px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-#controls button {
+#controls .controlButton {
     border: 2px solid #d6a575;
     padding: 5px 0px;
     color: #fff8f0;
@@ -71,13 +72,15 @@ main {
     font-weight: bold;
     border-radius: 5px;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: Arial, sans-serif;
+    font-size: 1em;
 }
 
-#controls button:hover {
+#controls .controlButton:hover {
     background-color: #a0522d;
 }
 
-#controls button:active {
+#controls .controlButton:active {
     background-color: #5c3b20;
     transform: scale(0.95);
 }
@@ -196,9 +199,14 @@ main {
     display: none;
 }
 
-.songSelector {
+.songSelector, .exportSelector {
     margin: auto;
-    width: 200px;
+    min-width: 200px;
     margin-top: 10px;
     display: block;
+
+}
+
+.songSelector option:not(:last-child), .exportSelector option:not(:last-child) {
+    border-bottom: 1px solid #5c3b20;
 }
