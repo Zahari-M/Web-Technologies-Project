@@ -1,7 +1,7 @@
 const editor = document.getElementById('tabEditor')
 const titleInput = document.getElementById('titleInput')
 
-//                            0    1     2    3     4    5     6    7    
+//                     0    1     2    3     4    5     6    7    
 const chordLetters = ["A", "A#", "B", "C", "C#", "D", "D#", "E",
 //   8    9     10   11
     "F", "F#", "G", "G#"];
@@ -11,7 +11,7 @@ const durations = [1, 2, 4]
 const labels = ['chord:', 'type:', 'duration:']
 export const stringLetters = ['e', 'B', 'G', 'D', 'A', 'E']
 
-const tabPresets = {
+export const tabPresets = {
     '0': {
         '0': [0, 2, 2, 2, 0, null],
         '1': [0, 1, 2, 2, 0, null]
@@ -28,7 +28,7 @@ const tabPresets = {
     }
 }
 
-const tabTemplates = {
+export const tabTemplates = {
     '0': [0, 0, 1, 2, 2, 0], // E major
     '1': [0, 0, 0, 2, 2, 0]  // E minor
 }
@@ -81,7 +81,8 @@ export function getTabNumbers({chord, type}) {
     }
 
     return tabTemplates[type].map(number => 
-        (number + chord - 7 + chordLetters.length) % chordLetters.length)
+        (number + chord - 7 + chordLetters.length) % 
+            (chord >= 7 ? chordLetters.length : 1000))
 }
 
 function chordNumbers(position, index) {

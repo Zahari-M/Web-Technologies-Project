@@ -1,7 +1,7 @@
 import { data, getTabNumbers, stringLetters } from "./editor.js";
 
 
-const positions = 4 * 4;
+export const positions = 4 * 4;
 
 function toACIIChords({chords, title}) {
     let file = title + '\n';
@@ -49,7 +49,7 @@ function writeLine(startPosition, chords, lineNumber) {
     for (let i = 0; i < chords.length; i++) {
         const numbers = getTabNumbers(chords[i])
         incrementLine(numbers[lineNumber] === null ? empty : numbers[lineNumber])
-        for (let j = 1; j < chords[i].duration; j++) {
+        for (let j = 1; j < chords[i].duration && position < positions; j++) {
             incrementLine(empty)
         }
     }
@@ -60,8 +60,10 @@ function writeLine(startPosition, chords, lineNumber) {
     return line
 }
 
-function toCSV({chords}) {
+function toCSV({chords, title}) {
     let file = ''
+    file += title + '\n'
+    file += 'chord,type,duration\n'
     for (let chord of chords) {
         file += chord.chord + ',' + chord.type + ',' + chord.duration + '\n'
     }
