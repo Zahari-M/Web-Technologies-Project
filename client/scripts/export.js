@@ -86,8 +86,6 @@ function toKeyboardAppJson({chords}){
     let arr=[];
     let prevDur=0
     for (let chord of chords) {
-        console.log(chord.chord);
-
         const rootNote = {
             note: keyMapping[chord.chord],
             delay:prevDur
