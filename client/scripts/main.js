@@ -13,6 +13,10 @@ const closePopupButton = document.getElementById('closePopup')
 const confirmPopupButton = document.getElementById('confirmPopup')
 const loginButton = document.getElementById('loginButton')
 const logoutButton = document.getElementById('logoutButton')
+const keyboardAppButton = document.getElementById('keyboardApp')
+
+
+const KEY_BOARDAPP_URL=""
 
 const userMessage = document.getElementById('userMessage')
 
@@ -72,6 +76,14 @@ saveButton.onclick = async () => {
 loadButton.onclick = async () => {
     await loadData()
     displayPopup(loadPopup, confirmLoad)
+}
+
+keyboardAppButton.onclick = async () => {
+    const currentData = data.getData();
+    const file = toKeyboardAppJson(currentData);
+    const blob = new Blob([file], {type: 'text/plain'});
+    const blobURL = URL.createObjectURL(blob);
+    window.location.href=KEY_BOARDAPP_URL+"/import?file="+blobURL;
 }
 
 displayEditor()

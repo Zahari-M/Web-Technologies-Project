@@ -68,9 +68,66 @@ function toCSV({chords}) {
     return file
 }
 
+function toKeyboardAppJson({chords}){
+    const keyMapping = {
+        3: 'q',
+        4:'2',
+        5:'w',
+        6:'3',
+        7:'e',
+        8: 'r',
+        9: '5',
+        10: 't',
+        11: '6',
+        0: 'y',
+        1: '7',
+        2: 'u'
+    }
+    let arr=[];
+    let prevDur=0
+    for (let chord of chords) {
+        console.log(chord.chord);
+
+        const rootNote = {
+            note: keyMapping[chord.chord],
+            delay:prevDur
+        };
+        let offset;
+        switch (chord.type) {
+            case 0:
+                offset = 4;
+                break;
+            case 1:
+                offset = 3;
+                break;
+            case 2:
+                offset = 2;
+                break;
+            case 3:
+                offset = 5;
+                break;
+            default:
+                offset = 0;
+        }
+
+
+        const secondNote = {
+            note: keyMapping[(chord.chord+offset)%12],
+            delay:200
+        };
+        const thirdNote = {
+            note: keyMapping[(chord.chord+7)%12],
+            delay:200
+        };
+        arr.push(rootNote, secondNote, thirdNote);
+        prevDur=chord.duration*500;
+    }
+    return JSON.stringify(arr);
+}
+
 const popupContent = document.getElementById('popupContent')
 const popupTitle = document.getElementById('popupTitle')
-const exportOptions = ['ASCII', 'JSON', 'CSV']
+const exportOptions = ['ASCII', 'JSON', 'KeyboardAppJSON', 'CSV']
 let chosenOption = 0
 
 export function exportPopupDisplay() {
@@ -111,6 +168,10 @@ export function exportConfirm() {
             break;
         case 'JSON':
             file = JSON.stringify(currentData);
+            extension = '.json'
+            break;
+        case 'KeyboardAppJSON':
+            file = toKeyboardAppJson(currentData);
             extension = '.json'
             break;
         case 'CSV':
