@@ -14,7 +14,7 @@ function fromACIIChords(file) {
         if (chords.length > 0) {
             chords[chords.length - 1].duration += delay
         }
-        chords = chords.concat(chords, newChords)
+        chords = chords.concat(newChords)
     }
     return {chords, title}
 }
