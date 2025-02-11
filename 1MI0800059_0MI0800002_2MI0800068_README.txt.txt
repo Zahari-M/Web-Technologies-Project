@@ -1,0 +1,34 @@
+	1MI0800059, 	0MI0800002, 	2MI0800068
+Имена:  Захари Маринов, Богдан Миронов, Владимир Кръстев     
+
+
+Инсталация, настройки и DevOps 
+Инсталиране на XAMPP
+Свалете XAMPP от apachefriends.org и го инсталирайте.
+Стартиране на сървърите
+Отворете XAMPP Control Panel и стартирайте Apache и MySQL.
+Импорт на базата данни
+В phpMyAdmin (бутон Admin до MySQL) отидете на Import.
+Качете server/resources/ASCII.sql и натиснете Go.
+Поставяне на уеб файловете
+Копирайте файловете на уеб приложението в xampp/htdocs.
+Достъп до приложението
+Отворете браузър и въведете http://localhost:80.
+Примерни данни за вход
+Email: test@test.com
+Парола: 123456abc
+
+Версията е чернова.
+Необходимо е да се добавят функционалности import от ASCII, csv, json, export към csv, json, да се добавят повече
+типове акорди sus, aug, min7 и др.
+възможност за изтриване и редактиране на запазени мелодии.
+
+Съдържание: index.php,
+папки client
+	- index.html
+	- login.html
+	- register.html
+	- папки audio scripts styles
+server
+	- endpoints.php
+	- папки resources services

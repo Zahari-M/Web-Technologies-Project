@@ -6,7 +6,7 @@ const chordLetters = ["A", "A#", "B", "C", "C#", "D", "D#", "E",
 //   8    9     10   11
     "F", "F#", "G", "G#"];
 //                    0     1
-const chordTypes = ['maj', 'min']
+const chordTypes = ['maj', 'min', 'sus2', 'sus4']
 const durations = [1, 2, 4]
 const labels = ['chord:', 'type:', 'duration:']
 export const stringLetters = ['e', 'B', 'G', 'D', 'A', 'E']
@@ -14,23 +14,32 @@ export const stringLetters = ['e', 'B', 'G', 'D', 'A', 'E']
 export const tabPresets = {
     '0': {
         '0': [0, 2, 2, 2, 0, null],
-        '1': [0, 1, 2, 2, 0, null]
+        '1': [0, 1, 2, 2, 0, null],
+        '2':[0, 0, 2, 2, 0, null],
+        '3':[0, 3, 2, 2, 0, null]
     },
     '5': {
         '0': [2, 3, 2, 0, null, null],
         '1': [1, 3, 2, 0, null, null],
+        '2': [0, 3, 2, 0, null, null],
+        '3': [3, 3, 2, 0, null, null],
     },
     '3': {
-        '0': [0, 1, 0, 2, 3, null]
+        '0': [0, 1, 0, 2, 3, null],
+        '2': [0, 1, 0, 0, 3, null],
+        '3': [1, 1, 0, 3, 3, null]
     },
     '10': {
-        '0': [3, 0, 0, 0, 2, 3]
+        '0': [3, 0, 0, 0, 2, 3],
+        '2': [3, 0, 0, 2, 3, 3],
     }
 }
 
 export const tabTemplates = {
     '0': [0, 0, 1, 2, 2, 0], // E major
-    '1': [0, 0, 0, 2, 2, 0]  // E minor
+    '1': [0, 0, 0, 2, 2, 0],  // E minor
+    '2': [0, 0, 2, 4, 4, 0],  // Esus2
+    '3': [0, 0, 2, 2, 2, 0]  // Esus4
 }
 
 class Chord {
@@ -264,20 +273,34 @@ verticalLine.className = 'verticalLine';
 function playChord(chord) {
     if (chord.chord !== -1) {
         console.log(`Playing chord: ${chordLetters[chord.chord]} ${chordTypes[chord.type]}`);
-    if(chord.type==1){
-        const notes=[chord.chord, (chord.chord + 3) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
-        setTimeout(() => playNote(chordLetters[notes[0]]), 0);
-            setTimeout(() => playNote(chordLetters[notes[1]]), 25);
-            setTimeout(() => playNote(chordLetters[notes[2]]), 50);
-            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
-    }
-    if(chord.type==0){
-        const notes=[chord.chord, (chord.chord + 4) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
-        setTimeout(() => playNote(chordLetters[notes[0]]), 0);
-            setTimeout(() => playNote(chordLetters[notes[1]]), 25);
-            setTimeout(() => playNote(chordLetters[notes[2]]), 50);
-            setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
-    }
+        if(chord.type==1){
+            const notes=[chord.chord, (chord.chord + 3) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
+            setTimeout(() => playNote(chordLetters[notes[0]]), 0);
+                setTimeout(() => playNote(chordLetters[notes[1]]), 25);
+                setTimeout(() => playNote(chordLetters[notes[2]]), 50);
+                setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
+        }
+        else if(chord.type==0){
+            const notes=[chord.chord, (chord.chord + 4) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
+            setTimeout(() => playNote(chordLetters[notes[0]]), 0);
+                setTimeout(() => playNote(chordLetters[notes[1]]), 25);
+                setTimeout(() => playNote(chordLetters[notes[2]]), 50);
+                setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
+        }
+        else if(chord.type==2){
+            const notes=[chord.chord, (chord.chord + 2) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
+            setTimeout(() => playNote(chordLetters[notes[0]]), 0);
+                setTimeout(() => playNote(chordLetters[notes[1]]), 25);
+                setTimeout(() => playNote(chordLetters[notes[2]]), 50);
+                setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
+        }
+        else if(chord.type==3){
+            const notes=[chord.chord, (chord.chord + 5) % 12, (chord.chord + 7) % 12].sort((a,b)=>a-b);
+            setTimeout(() => playNote(chordLetters[notes[0]]), 0);
+                setTimeout(() => playNote(chordLetters[notes[1]]), 25);
+                setTimeout(() => playNote(chordLetters[notes[2]]), 50);
+                setTimeout(() => playNote(chordLetters[chord.chord].concat("4")), 75);
+        }
     }
 }
 
