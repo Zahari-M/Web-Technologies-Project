@@ -70,7 +70,7 @@ function toCSV({chords, title}) {
     return file
 }
 
-function toKeyboardAppJson({chords}){
+export function toKeyboardAppJson({chords}){
     const keyMapping = {
         3: 'q',
         4:'2',

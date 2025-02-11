@@ -1,6 +1,6 @@
-import { displayEditor } from "./editor.js"
+import { data, displayEditor } from "./editor.js"
 import { logout } from "./logout.js"
-import { exportConfirm, exportPopupDisplay } from "./export.js"
+import { exportConfirm, exportPopupDisplay, toKeyboardAppJson } from "./export.js"
 import { confirmLoad, loadData, loadPopup } from "./load.js"
 import { saveData, savePopup } from "./save.js"
 import { importData, importPopupDisplay } from "./import.js"
@@ -14,7 +14,7 @@ const closePopupButton = document.getElementById('closePopup')
 const confirmPopupButton = document.getElementById('confirmPopup')
 const loginButton = document.getElementById('loginButton')
 const logoutButton = document.getElementById('logoutButton')
-const keyboardAppButton = document.getElementById('keyboardApp')
+const keyboardAppButton = document.getElementById('KeyboardApp')
 
 
 const KEY_BOARDAPP_URL=""
