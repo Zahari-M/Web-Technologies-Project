@@ -3,11 +3,12 @@ import { logout } from "./logout.js"
 import { exportConfirm, exportPopupDisplay } from "./export.js"
 import { confirmLoad, loadData, loadPopup } from "./load.js"
 import { saveData, savePopup } from "./save.js"
+import { importData, importPopupDisplay } from "./import.js"
 
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const exportButton = document.getElementById('export')
-const importButton = document.getElementById('import')
+const importInput = document.getElementById('import')
 const overlay = document.getElementById('overlay')
 const closePopupButton = document.getElementById('closePopup')
 const confirmPopupButton = document.getElementById('confirmPopup')
@@ -85,5 +86,13 @@ keyboardAppButton.onclick = async () => {
     const blobURL = URL.createObjectURL(blob);
     window.location.href=KEY_BOARDAPP_URL+"/import?file="+blobURL;
 }
+
+importInput.addEventListener("change", async () => {
+    if (importInput.files.length == 1) {
+      const file = importInput.files[0]
+      importData(await file.text(), file.name.split('.').slice(-1)[0])
+      displayPopup(importPopupDisplay, () => {})
+    }
+});
 
 displayEditor()
