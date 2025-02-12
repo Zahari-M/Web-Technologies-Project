@@ -8,10 +8,23 @@ function saveMelody($userId, $title, $chords)
     try {
         $pdo->beginTransaction();
 
-        $sql = "INSERT INTO melodies (user_id, title) VALUES (:user_id, :title)";
+        $sql = "SELECT id FROM melodies WHERE user_id = :user_id AND title = :title";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['user_id' => $userId, 'title' => $title]);
-        $melodyId = $pdo->lastInsertId();
+        $existingMelody = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($existingMelody) {
+            $melodyId = $existingMelody['id'];
+
+            $sql = "DELETE FROM chords WHERE melody_id = :melody_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['melody_id' => $melodyId]);
+        } else {
+            $sql = "INSERT INTO melodies (user_id, title) VALUES (:user_id, :title)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['user_id' => $userId, 'title' => $title]);
+            $melodyId = $pdo->lastInsertId();
+        }
 
         $sql = "INSERT INTO chords (melody_id, chord, type, duration, order_index) 
                 VALUES (:melody_id, :chord, :type, :duration, :order_index)";
@@ -33,7 +46,6 @@ function saveMelody($userId, $title, $chords)
         throw $e;
     }
 }
-
 function getUserMelodies($userId)
 {
     global $pdo;
