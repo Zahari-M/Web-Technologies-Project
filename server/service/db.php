@@ -1,6 +1,6 @@
 <?php
 $credFile = file_get_contents('../../cred.json');
-$cred = json_decode(json_decode($credFile, true)['SecretString'], true)
+$cred = json_decode(json_decode($credFile, true)['SecretString'], true);
 $endpoint = file_get_contents("../../endpoint.txt");
 $dsn = "mysql:host=$endpoint;dbname=ASCII;charset=utf8mb4";
 $username = cred['username'];
