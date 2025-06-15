@@ -1,10 +1,10 @@
 <?php
-$credFile = file_get_contents('../../cred.json');
+$credFile = file_get_contents(__DIR__ . '/../../cred.json');
 $cred = json_decode(json_decode($credFile, true)['SecretString'], true);
-$endpoint = file_get_contents("../../endpoint.txt");
+$endpoint = file_get_contents(__DIR__ . "/../../endpoint.txt");
 $dsn = "mysql:host=$endpoint;dbname=ASCII;charset=utf8mb4";
-$username = cred['username'];
-$password = cred['password'];
+$username = $cred['username'];
+$password = $cred['password'];
 
 try {
     $pdo = new PDO($dsn, $username, $password);
